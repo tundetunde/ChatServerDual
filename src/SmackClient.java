@@ -146,7 +146,7 @@ public class SmackClient {
 		connection.login(senderId + "@gcm.googleapis.com" , apiKey);
 	}
 	
-	public static void sendMessage(String toDeviceRegId, final String GOOGLE_SERVER_KEY , String message) throws SmackException, IOException {
+	public static void sendMessage(String toDeviceRegId, final String GOOGLE_SERVER_KEY , String message) throws SmackException, IOException, ClassNotFoundException {
 
 		SmackClient ccsClient = new SmackClient();
 

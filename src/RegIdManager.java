@@ -32,7 +32,14 @@ public class RegIdManager {
 	}
 
 	public static Set<String> readFromFile() throws IOException, FileNotFoundException{
-		BufferedReader br = new BufferedReader(new FileReader(REG_ID_STORE));
+		BufferedReader br = null;
+		try{
+			br = new BufferedReader(new FileReader(REG_ID_STORE));
+		}catch(FileNotFoundException e){
+			createFile();
+			br = new BufferedReader(new FileReader(REG_ID_STORE));
+		}
+		
 		String regId = "";
 		Set<String> regIdSet = new HashSet<String>();
 		while ((regId = br.readLine()) != null) {
@@ -43,23 +50,23 @@ public class RegIdManager {
 	}
 	
 	public static void createFile(){
-		/*PrintWriter writer;
-		try {
-			writer = new PrintWriter(REG_ID_STORE, "UTF-8");
-			writer.close();
-		} catch (FileNotFoundException | UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		File file = new File(REG_ID_STORE);
-		BufferedWriter output;
-        try {
-        	output = new BufferedWriter(new FileWriter(file));
-			output.write("");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		 try {
+	            // Assume default encoding.
+	            FileWriter fileWriter =
+	                new FileWriter(REG_ID_STORE);
+	            // Always wrap FileWriter in BufferedWriter.
+	            BufferedWriter bufferedWriter =
+	                new BufferedWriter(fileWriter);
+	            
+	            bufferedWriter.write("RegistrationFile");
+	            // Always close files.
+	            bufferedWriter.close();
+	        }
+	        catch(IOException ex) {
+	            System.out.println(
+	                "Error writing to file '" + REG_ID_STORE + "'");
+	            // ex.printStackTrace();
+	        }
 		
 	}
 }

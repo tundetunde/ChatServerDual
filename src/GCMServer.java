@@ -48,10 +48,11 @@ public class GCMServer extends HttpServlet {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
 		out.append("Hi");
-		out.append("\nMessage Received");
 		out.close();
 			try {
-				String userMessage = request.getParameter("message");
+				String regKey = request.getParameter("RegNo");
+				String mobile = request.getParameter("MobileNo");
+				String userMessage = mobile + "," + regKey;
 				Set<String> regIdSet = RegIdManager.readFromFile();
 				String toDeviceRegId = (String) (regIdSet.toArray())[0];
 				SmackClient.sendMessage(toDeviceRegId, GOOGLE_SERVER_KEY, userMessage);
