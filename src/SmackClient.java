@@ -295,8 +295,8 @@ public class SmackClient {
 			send(echo);
 		} else if ("REGISTER".equals(action)) {
 			try {
-				RegIdManager.writeToFile(from);
-			} catch (IOException e) {
+				RegIdManager.writeToFile(from, from);
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

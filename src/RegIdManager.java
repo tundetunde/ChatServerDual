@@ -6,7 +6,6 @@ import java.util.Set;
 import java.sql.*;
 
 public class RegIdManager {
-	static final String REG_ID_STORE = "GCMRegId.txt";
 	static Connection con;
 	
 	public static void writeToFile(String pNo, String regId){
@@ -48,7 +47,7 @@ public class RegIdManager {
 		try {
             Class.forName("com.mysql.jdbc.Driver");
             System.out.println("loaded class");
-            con = DriverManager.getConnection("jdbc:hsqldb:\\ChatServerDual\\db_script", "root", "");
+            con = DriverManager.getConnection("jdbc:hsqldb:file:\\ChatServerDual\\db_script", "root", "");
             System.out.println("created con");
         } catch (Exception e) {
             System.out.println("Exception: " + e);

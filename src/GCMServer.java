@@ -1,5 +1,4 @@
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Set;
@@ -9,8 +8,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.jasper.tagplugins.jstl.core.Out;
 
 /**
  * Servlet implementation class GCMServer
@@ -24,6 +21,7 @@ public class GCMServer extends HttpServlet {
 
 		// Put your Google Project number here
 		final String GOOGLE_USERNAME = "512212818580" + "@gcm.googleapis.com";
+		
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -53,17 +51,20 @@ public class GCMServer extends HttpServlet {
 				String regKey = request.getParameter("RegNo");
 				String mobile = request.getParameter("MobileNo");
 				String userMessage = mobile + "," + regKey;
-				Set<String> regIdSet = RegIdManager.readFromFile();
-				String toDeviceRegId = (String) (regIdSet.toArray())[0];
-				SmackClient.sendMessage(toDeviceRegId, GOOGLE_SERVER_KEY, userMessage);
+				
+				if(request.getParameter("Register") != null){
+					RegIdManager.writeToFile(mobile, regKey);
+				}
+				else{
+					Set<String> regIdSet = RegIdManager.readFromFile(mobile);
+					String toDeviceRegId = (String) (regIdSet.toArray())[0];
+					SmackClient.sendMessage(toDeviceRegId, GOOGLE_SERVER_KEY, userMessage);
+				}
 				request.setAttribute("pushStatus", "Message Sent.");
-			} catch (IOException ioe) {
+			} catch (Exception ioe) {
 				ioe.printStackTrace();
 				request.setAttribute("pushStatus",
 						"RegId required: " + ioe.toString());
-			} catch (Exception e) {
-				e.printStackTrace();
-				request.setAttribute("pushStatus", e.toString());
 			}
 			request.getRequestDispatcher("index.jsp").forward(request, response);
 	}
